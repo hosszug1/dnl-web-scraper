@@ -1,0 +1,85 @@
+[project]
+name = "dnl-web-scraper"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+
+[dependency-groups]
+common = [
+    "invoke>=2.2.0",
+    "loguru>=0.7.3",
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.11.2",
+    "pymongo>=4.11.3",
+]
+
+api = [
+    "fastapi>=0.115.12",
+    "fastapi-pagination>=0.12.34",
+    "motor>=3.7.0",
+    "uvicorn>=0.34.0",
+]
+
+scraper = ["itemadapter>=0.11.0", "scrapy>=2.12.0"]
+
+[tool.uv]
+default-groups = ["common", "api", "scraper"]
+
+[tool.ruff]
+# Common choice; Black also defaults to 88.
+line-length = 88
+# Match your Python version (>=3.10).
+target-version = "py312"
+# Exclusion list for files/folders to exclude from linting/formatting.
+exclude = []
+
+[tool.ruff.lint]
+# Enable some useful linting rules.
+select = ["E", "F", "I", "B", "W", "UP", "N", "C90", "ANN", "S", "T20", "Q"]
+# Explanations:
+# E - pycodestyle (error)
+# F - Pyflakes (general issues)
+# I - isort (import sorting)
+# B - flake8-bugbear (common issues)
+# W - pycodestyle (warning)
+# UP - pyupgrade (automatic updates for new Python versions)
+# N - pep8-naming (consistent naming)
+# C90 - mccabe (complexity)
+# ANN - flake8-annotations (type hints)
+# S - flake8-bandit (security checks)
+# T20 - flake8-print (warns about print statements)
+# Q - flake8-quotes (consistency in quote styles)
+
+ignore = [
+    "E501",   # Ignore line-too-long (handled by the formatter)
+    "ANN204", # Missing return type annotation for special methods
+    "ANN002", # Missing type annotation for args
+    "ANN003", # Missing type annotation for kwargs
+    "S311",   # Standard pseudo-random generators are not suitable for security/cryptographic purposes
+]
+
+[tool.ruff.lint.per-file-ignores]
+"api/routers/**/*.py" = [
+    "B008", # Do not perform function calls in argument defaults
+]
+"tasks.py" = [
+    "T201", # print() found
+]
+
+[tool.ruff.format]
+# Enable Ruff's autoformatter
+quote-style = "double" # Choose between "single" or "double"
+indent-style = "space" # "tab" or "space"
+line-ending = "lf"     # Use "lf" for UNIX-style endings
+
+[tool.ruff.lint.isort]
+# Configure import sorting
+known-first-party = ["app"] # Ensures internal imports are correctly grouped
+combine-as-imports = true   # Merge `import a as x` with `import b as y`
+order-by-type = false       # Avoid sorting by type
+
+[tool.ruff.lint.pydocstyle]
+# Docstring style settings (choose one).
+convention = "google" # Options: "google", "numpy", "pep257"

@@ -1,0 +1,38 @@
+networks:
+  dnl-network:
+    driver: bridge
+
+services:
+  scraper:
+    container_name: scraper
+    build: ./scraper
+    command: scrapy runspider scraper.py
+    networks:
+      - dnl-network
+
+  api:
+    container_name: api
+    build: ./api
+    command: uvicorn app:app --host 0.0.0.0
+    ports:
+      - 8000:8000
+    networks:
+      - dnl-network
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - dnl-network
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+    driver: local
