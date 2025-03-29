@@ -44,18 +44,18 @@ dependencies = []  # Keep this empty if all dependencies are in groups
 
 [tool.uv.dependencies]
 common = [
+    "pymongo",
+    "ruff",
+]
+
+api = [
     "fastapi",
     "uvicorn",
 ]
 
-app1 = [
-    "sqlalchemy",
-    "psycopg2",
-]
-
-app2 = [
-    "pymongo",
-    "redis",
+scraper = [
+    "scrapy",
+    "itemadapter",
 ]
 ```
 
@@ -83,7 +83,7 @@ uv --version
 To add a package to a specific dependency group, use:
 
 ```sh
-uv add --group api package_name
+uv add --group <group_name> <package_name>
 ```
 
 For example, to add `requests` to `scraper`:
@@ -94,15 +94,14 @@ uv add --group scraper requests
 ## Deployment Instructions
 
 ### 1. Generate `requirements.txt` for Each App
-To install dependencies in Docker, we generate `requirements.txt` files for each app.
+To install dependencies in Docker, we generate `requirements.txt` files for each app. Make sure you have `uv` installed (follow Development Instructions).
 
 ```sh
-uv pip compile --group common api > requirements-api.txt
-uv pip compile --group common scraper > requirements-scraper.txt
+uv export --only-group common --only-group api > api/requirements-api.txt
+uv export --only-group common --only-group scraper > scraper/requirements-scraper.txt
 ```
 
-Optional: To regenerate `requirements.txt` with invoke in one go, make sure you have
-`uv` installed with at least `invoke` from the lockfile (follow Development Instructions):
+Optional: To generate both `requirements.txt` files with invoke in one go, run the following command (`invoke` should automatically install as long as you have `uv` installed).
 
 ```sh
 uv run invoke generate-reqs
