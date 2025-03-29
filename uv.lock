@@ -252,6 +252,7 @@ api = [
     { name = "fastapi" },
     { name = "fastapi-pagination" },
     { name = "motor" },
+    { name = "pydantic" },
     { name = "uvicorn" },
 ]
 common = [
@@ -274,6 +275,7 @@ api = [
     { name = "fastapi", specifier = ">=0.115.12" },
     { name = "fastapi-pagination", specifier = ">=0.12.34" },
     { name = "motor", specifier = ">=3.7.0" },
+    { name = "pydantic", specifier = ">=2.11.1" },
     { name = "uvicorn", specifier = ">=0.34.0" },
 ]
 common = [

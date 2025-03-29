@@ -25,7 +25,7 @@ class MongoPipeline:
         self.stats = stats
 
     @classmethod
-    def from_crawler(cls, crawler):
+    def from_crawler(cls, crawler: scrapy.crawler.Crawler) -> "MongoPipeline":
         return cls(
             uri=crawler.settings.get("MONGODB_SERVER"),
             db=crawler.settings.get("MONGODB_DB"),
@@ -33,11 +33,11 @@ class MongoPipeline:
             stats=crawler.stats,
         )
 
-    def open_spider(self, _):
+    def open_spider(self, _: scrapy.Spider) -> None:
         self.client = pymongo.MongoClient(self.mongo_uri)
         self.db = self.client[self.mongo_db]
 
-    def close_spider(self, _):
+    def close_spider(self, _: scrapy.Spider) -> None:
         # Save the stats of the crawl at the end of the run
         self.db[self.stats_collection_name].insert_one(self.stats.get_stats())
         self.client.close()

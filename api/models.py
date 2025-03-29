@@ -9,3 +9,8 @@ class Product(BaseModel):
     model: str
     part_type: str | None
     part_number: str
+
+
+class DeleteResponse(BaseModel):
+    deleted_count: int
+    message: str

@@ -28,9 +28,7 @@ class ProductsSpider(scrapy.Spider):
             time.sleep(random.uniform(1.0, 3.0))
             yield scrapy.Request(url, callback=self.parse, errback=self.handle_error)
 
-    def parse(
-        self, response: scrapy.http.response.Response, **__
-    ) -> Iterator[scrapy.Request]:
+    def parse(self, response) -> Iterator[scrapy.Request]:  # noqa: ANN001
         """Initial parsing entrypoint.
 
         Parse the homepage and, for each 'make' found, yield a new request and assign
@@ -38,7 +36,6 @@ class ProductsSpider(scrapy.Spider):
 
         Args:
             response: the http response from the request.
-            __: any kwargs, not used.
 
         Returns:
             An iterator of further scrapy request objects.
@@ -79,9 +76,7 @@ class ProductsSpider(scrapy.Spider):
         except Exception as e:
             logger.error(f"Error parsing makes: {str(e)}")
 
-    def parse_category(
-        self, response: scrapy.http.response.Response
-    ) -> Iterator[scrapy.Request]:
+    def parse_category(self, response) -> Iterator[scrapy.Request]:  # noqa: ANN001
         """Second parse step.
 
         On this make's page, parse out all the product categories and initialize further scrapes
@@ -130,9 +125,7 @@ class ProductsSpider(scrapy.Spider):
         except Exception as e:
             logger.error(f"Error parsing categories: {str(e)}")
 
-    def parse_model(
-        self, response: scrapy.http.response.Response
-    ) -> Iterator[scrapy.Request]:
+    def parse_model(self, response) -> Iterator[scrapy.Request]:  # noqa: ANN001
         """Third parse step.
 
         On this category's page, parse out all the product models and initialize further scrapes
@@ -182,9 +175,7 @@ class ProductsSpider(scrapy.Spider):
         except Exception as e:
             logger.error(f"Error parsing models: {str(e)}")
 
-    def parse_part(
-        self, response: scrapy.http.response.Response
-    ) -> Iterator[items.ProductItem]:
+    def parse_part(self, response) -> Iterator[items.ProductItem]:  # noqa: ANN001
         """Fourth parse step.
 
         On this model's page, parse out all the parts and yield ProductItem objects
@@ -270,7 +261,7 @@ class ProductsSpider(scrapy.Spider):
                 return False
         return True
 
-    def handle_error(self, failure) -> None:
+    def handle_error(self, failure) -> None:  # noqa: ANN001
         """Handle request failures gracefully.
 
         Args:
