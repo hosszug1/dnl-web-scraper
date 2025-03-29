@@ -18,8 +18,8 @@ services:
       - 8000:8000
     networks:
       - dnl-network
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
     depends_on:
       - mongo
 

@@ -1,5 +1,5 @@
 # Mongo
-MONGO_DEFAULT_URI = "mongodb://localhost:27017"
+MONGO_DEFAULT_URI = "mongodb://mongo:27017"
 MONGO_URI_ENV_VAR = "MONGO_URI"
 MONGO_DEFAULT_DB = "scraping_db"
 MONGO_DB_ENV_VAR = "MONGO_DB"
