@@ -22,7 +22,6 @@ dnl-web-scraper/
     scraper/ # Web crawler implementation
         Dockerfile
         ...
-    FOREWORD.md # Assignment context and instructions
     README.md # Setup and usage instructions
     docker-compose.yaml
     ...
