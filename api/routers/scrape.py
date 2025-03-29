@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+from bson import ObjectId
 from clients.mongo import MongoDB
 from constants import MONGO_SCRAPED_COLLECTION
 from dependencies import get_db
@@ -50,44 +51,47 @@ async def get_products(
 
     scraped_col = db.get_collection(MONGO_SCRAPED_COLLECTION)
 
+    # The _id field will be automatically included by motor_paginate
     result = await motor_paginate(scraped_col, query_filter=filter_query)
 
     return result
 
 
 @router.delete(
-    "/products/{part_number}",
+    "/products/{product_id}",
     response_model=DeleteResponse,
     status_code=HTTPStatus.OK,
 )
-async def delete_product(
-    part_number: str = Path(
+async def delete_product_by_id(
+    product_id: str = Path(
         ...,
-        title="Part Number",
-        description="The part number of the product to delete",
-        min_length=1,
+        title="Product ID",
+        description="The MongoDB ObjectId of the product to delete",
     ),
     db: MongoDB = Depends(get_db),
 ) -> DeleteResponse:
     """
-    Delete a product from the database by its part number.
+    Delete a product from the database by its MongoDB ID.
 
     Returns:
-        A response indicating how many products were deleted.
+        A response indicating whether the product was deleted.
     """
     scraped_col = db.get_collection(MONGO_SCRAPED_COLLECTION)
 
-    # Delete the product with the specified part number
-    result = await scraped_col.delete_many({"part_number": part_number})
+    # Convert string ID to MongoDB ObjectId
+    object_id = ObjectId(product_id)
 
-    # Check if any documents were deleted
+    # Delete the product with the specified ID
+    result = await scraped_col.delete_one({"_id": object_id})
+
+    # Check if any document was deleted
     if result.deleted_count == 0:
         raise HTTPException(
             status_code=HTTPStatus.NOT_FOUND,
-            detail=f"No product found with part number: {part_number}",
+            detail=f"No product found with ID: {product_id}",
         )
 
     return DeleteResponse(
         deleted_count=result.deleted_count,
-        message=f"Successfully deleted {result.deleted_count} product(s) with part number: {part_number}",
+        message=f"Successfully deleted product with ID: {product_id}",
     )
