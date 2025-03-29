@@ -40,4 +40,4 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 USER appuser
 
 # Copy the source code into the container.
-COPY . .
+COPY . scraper/

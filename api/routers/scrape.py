@@ -1,13 +1,14 @@
 from http import HTTPStatus
 
 from bson import ObjectId
-from clients.mongo import MongoDB
-from constants import MONGO_SCRAPED_COLLECTION
-from dependencies import get_db
 from fastapi import APIRouter, Depends, HTTPException, Path, Query
 from fastapi_pagination import Page
 from fastapi_pagination.ext.motor import paginate as motor_paginate
-from models import DeleteResponse, Product
+
+from api.clients.mongo import MongoDB
+from api.constants import MONGO_SCRAPED_COLLECTION
+from api.dependencies import get_db
+from api.models import DeleteResponse, Product
 
 router = APIRouter(
     prefix="/scrape",

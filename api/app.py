@@ -1,10 +1,11 @@
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from dependencies import mongo_close, mongo_connect
 from fastapi import FastAPI
 from fastapi_pagination import add_pagination
-from routers import scrape
+
+from api.dependencies import mongo_close, mongo_connect
+from api.routers import scrape
 
 
 @asynccontextmanager

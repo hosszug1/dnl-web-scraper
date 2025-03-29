@@ -1,8 +1,9 @@
-import items
 import pymongo
 import scrapy.crawler
 from itemadapter import ItemAdapter
 from scrapy.statscollectors import StatsCollector
+
+from scraper import items
 
 
 class MongoPipeline:

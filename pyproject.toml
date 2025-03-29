@@ -68,6 +68,12 @@ ignore = [
 "tasks.py" = [
     "T201", # print() found
 ]
+"**/tests/**/*.py" = [
+    "ANN001", # Missing type annotation for function argument
+    "ANN201", # Missing return type annotation for public function
+    "ANN202", # Missing type annotation for public function
+    "S101",   # Use of `assert` (allowed in tests)
+]
 
 [tool.ruff.format]
 # Enable Ruff's autoformatter

@@ -1,7 +1,10 @@
 import os
 
-from clients.mongo import MongoDB
-from constants import (
+from loguru import logger
+from motor.motor_asyncio import AsyncIOMotorClient
+
+from api.clients.mongo import MongoDB
+from api.constants import (
     MONGO_DB_ENV_VAR,
     MONGO_DEFAULT_DB,
     MONGO_DEFAULT_MAX_CONNECTIONS_COUNT,
@@ -11,8 +14,6 @@ from constants import (
     MONGO_MIN_CONNECTIONS_COUNT_ENV_VAR,
     MONGO_URI_ENV_VAR,
 )
-from loguru import logger
-from motor.motor_asyncio import AsyncIOMotorClient
 
 
 class CommonSettings:

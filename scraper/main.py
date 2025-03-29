@@ -2,11 +2,12 @@ import random
 import time
 from collections.abc import Iterator
 
-import items
 import scrapy
-from constants import ALLOWED_DOMAINS, START_URLS
 from itemadapter import ItemAdapter
 from loguru import logger
+
+from scraper import items
+from scraper.constants import ALLOWED_DOMAINS, START_URLS
 
 
 class ProductsSpider(scrapy.Spider):
