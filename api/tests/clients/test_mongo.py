@@ -30,7 +30,7 @@ def mock_motor_client(mocker):
 def mongo_db(mock_motor_client):
     """Create a MongoDB instance with mocked client."""
     mock_client, _, _ = mock_motor_client
-    mongo = MongoDB(connection_string="mongodb://localhost:27017", db_name="test_db")
+    mongo = MongoDB(mongo_uri="mongodb://localhost:27017", db_name="test_db")
     mongo.client = mock_client
     return mongo
 
@@ -41,9 +41,9 @@ class TestMongoDB:
     def test_init(self):
         """Test MongoDB initialization."""
         mongo = MongoDB(
-            connection_string="mongodb://localhost:27017", db_name="test_db"
+            mongo_uri="mongodb://localhost:27017", db_name="test_db"
         )
-        assert mongo.connection_string == "mongodb://localhost:27017"
+        assert mongo.mongo_uri == "mongodb://localhost:27017"
         assert mongo.db_name == "test_db"
         assert mongo.client is None
 
@@ -54,7 +54,7 @@ class TestMongoDB:
         mocker.patch("motor.motor_asyncio.AsyncIOMotorClient", return_value=mock_client)
 
         mongo = MongoDB(
-            connection_string="mongodb://localhost:27017", db_name="test_db"
+            mongo_uri="mongodb://localhost:27017", db_name="test_db"
         )
         await mongo.connect()
 
@@ -69,7 +69,7 @@ class TestMongoDB:
         )
 
         mongo = MongoDB(
-            connection_string="mongodb://localhost:27017", db_name="test_db"
+            mongo_uri="mongodb://localhost:27017", db_name="test_db"
         )
 
         with pytest.raises(Exception, match="Connection failed"):

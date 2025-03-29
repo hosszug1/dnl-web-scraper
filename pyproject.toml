@@ -13,6 +13,8 @@ common = [
     "pytest-cov>=6.0.0",
     "ruff>=0.11.2",
     "pymongo>=4.11.3",
+    "pytest-mock>=3.14.0",
+    "pytest-asyncio>=0.26.0",
 ]
 
 api = [

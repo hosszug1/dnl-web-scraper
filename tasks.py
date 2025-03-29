@@ -9,10 +9,22 @@ def run_lint(ctx: Context) -> None:
 
 
 @task
+def run_api_tests(ctx: Context) -> None:
+    """Run api tests with coverage."""
+    ctx.run("uv run pytest api/tests/ --cov")
+
+
+@task
+def run_scraper_tests(ctx: Context) -> None:
+    """Run scraper tests with coverage."""
+    ctx.run("uv run pytest scraper/tests/ --cov")
+
+
+@task
 def run_tests(ctx: Context) -> None:
     """Run all tests with coverage."""
-    ctx.run("uv run pytest --cov")
-    # ctx.run("uv run coverage report -m")
+    run_api_tests(ctx)
+    run_scraper_tests(ctx)
 
 
 @task(pre=[run_lint, run_tests])
